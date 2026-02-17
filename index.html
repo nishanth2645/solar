@@ -6,6 +6,24 @@
     <title>Login/Signup Form</title>
     <link rel="stylesheet" href="SignUp_LogIn_Form.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- Firebase Scripts -->
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+<script>
+var firebaseConfig = {
+  apiKey: "AIzaSyCmeKyu9iNIbMm9RK2j5PLyIjQfe1zzXF8",
+  authDomain: "solar-monitor-be188.firebaseapp.com",
+  databaseURL: "https://solar-monitor-be188-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "solar-monitor-be188",
+  storageBucket: "solar-monitor-be188.appspot.com",
+  messagingSenderId: "1027663476583",
+  appId: "1:1027663476583:web:faba685ff1f5fa3b3d61c2"
+};
+
+firebase.initializeApp(firebaseConfig);
+</script>
 </head>
   <body>
 
@@ -36,7 +54,7 @@
               </form>
           </div>
 
-          <<div class="form-box register">
+          <div class="form-box register">
     <form id="registerForm">
         <h1>Registration</h1>
 
@@ -83,4 +101,5 @@
 
       <script src="SignUp_LogIn_Form.js"></script>
   </body>
+
 </html>
