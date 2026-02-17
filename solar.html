@@ -32,7 +32,7 @@
 <body>
     <script>
     if(localStorage.getItem("loggedIn") !== "true") {
-    window.location.href = "SignUp_LogIn_Form.html";
+    window.location.href = "index.html";
 }
 </script>
 <!-- Logout Button -->
@@ -87,8 +87,20 @@ var firebaseConfig = {
   appId: "1:1027663476583:web:faba685ff1f5fa3b3d61c2"
   };
 
+// 1️⃣ Firebase config
+var firebaseConfig = { ... };
+
+// 2️⃣ Initialize
 firebase.initializeApp(firebaseConfig);
+
+// 3️⃣ Create database reference
 var database = firebase.database();
+
+// 4️⃣ THEN write data
+database.ref("test").set({
+  message: "Firebase is working"
+});
+
 
 // Chart Setup
 const ctx = document.getElementById('powerChart').getContext('2d');
@@ -136,7 +148,7 @@ database.ref("solar").on("value", function(snapshot) {
 // 🔒 Logout Function
 function logout() {
     localStorage.removeItem("loggedIn");
-    window.location.href = "login.html";
+    window.location.href = "index.html";
 }
 
 </script>
@@ -144,5 +156,6 @@ function logout() {
 </body>
 
 </html>
+
 
 
