@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Solar Microgrid Monitoring</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase.js"></script>
+
+  <style>
+    body {
+      font-family: Arial;
+      background: #0f172a;
+      color: white;
+      text-align: center;
+    }
+    .card {
+      display: inline-block;
+      background: #1e293b;
+      padding: 20px;
+      margin: 15px;
+      border-radius: 15px;
+      width: 200px;
+    }
+    canvas {
+      background: white;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+    <script>
+    if(localStorage.getItem("loggedIn") !== "true") {
+    window.location.href = "SignUp_LogIn_Form.html";
+}
+</script>
+<!-- Logout Button -->
+<div style="text-align:right; padding:10px;">
+  <input type="button" value="Logout" onclick="logout()" 
+         style="background:#45f3ff; border:none; padding:8px 15px; cursor:pointer; border-radius:5px;">
+</div>
+
+<h1>⚡ Solar Microgrid Monitoring System</h1>
+
+<div class="card">
+  <h3>Solar Voltage</h3>
+  <h2 id="voltage">0 V</h2>
+</div>
+
+<div class="card">
+  <h3>Solar Current</h3>
+  <h2 id="current">0 A</h2>
+</div>
+
+<div class="card">
+  <h3>Power</h3>
+  <h2 id="power">0 W</h2>
+</div>
+
+<div class="card">
+  <h3>Battery</h3>
+  <h2 id="battery">0 %</h2>
+</div>
+
+<div class="card">
+  <h3>Load</h3>
+  <h2 id="load">0 W</h2>
+</div>
+
+<h2>Live Power Graph</h2>
+<canvas id="powerChart" width="600" height="300"></canvas>
+
+<script>
+
+// 🔹 Firebase Config
+var firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  databaseURL: "https://YOUR_DATABASE_URL.firebaseio.com"
+};
+
+firebase.initializeApp(firebaseConfig);
+var database = firebase.database();
+
+// Chart Setup
+const ctx = document.getElementById('powerChart').getContext('2d');
+const powerChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: [],
+        datasets: [{
+            label: 'Power (W)',
+            data: [],
+            borderColor: 'blue',
+            borderWidth: 2,
+            fill: false
+        }]
+    }
+});
+
+// 🔹 Read Data from Firebase
+database.ref("solar").on("value", function(snapshot) {
+
+  if(snapshot.exists()) {
+
+    let data = snapshot.val();
+
+    document.getElementById("voltage").innerHTML = data.voltage + " V";
+    document.getElementById("current").innerHTML = data.current + " A";
+    document.getElementById("power").innerHTML = data.power + " W";
+    document.getElementById("battery").innerHTML = data.battery + " %";
+    document.getElementById("load").innerHTML = data.load + " W";
+
+    // Update Graph
+    powerChart.data.labels.push("");
+    powerChart.data.datasets[0].data.push(data.power);
+
+    // Keep only last 20 readings
+    if(powerChart.data.labels.length > 20) {
+      powerChart.data.labels.shift();
+      powerChart.data.datasets[0].data.shift();
+    }
+
+    powerChart.update();
+  }
+
+});
+// 🔒 Logout Function
+function logout() {
+    localStorage.removeItem("loggedIn");
+    window.location.href = "login.html";
+}
+
+</script>
+
+</body>
+</html>
