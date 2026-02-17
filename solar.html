@@ -72,6 +72,9 @@
 <canvas id="powerChart" width="600" height="300"></canvas>
 
 <script>
+database.ref("test").set({
+  message: "Firebase is working"
+});
 
 // 🔹 Firebase Config
 var firebaseConfig = {
@@ -141,4 +144,5 @@ function logout() {
 </body>
 
 </html>
+
 
